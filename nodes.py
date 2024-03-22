@@ -45,8 +45,6 @@ class SamplerInversedEulerNode:
         ksampler = KSAMPLER(sample_inversed_euler)
         return (ksampler, )
 
-# combined_noise = ((1 - randomness) * rec_noise + randomness * rand_noise) / ((randomness**2 + (1-randomness)**2) ** 0.5)
-
 
 class MixNoiseNode:
     @classmethod
@@ -57,11 +55,11 @@ class MixNoiseNode:
         }}
 
     RETURN_TYPES = ("LATENT",)
-    CATEGORY = "sampling/custom_sampling/samplers"
+    CATEGORY = "noise"
 
-    FUNCTION = "combine"
+    FUNCTION = "mix"
 
-    def combine(self, latent, randomness):
+    def mix(self, latent, randomness):
         latent_image = latent['samples']
         rand_noise = torch.randn_like(latent_image)
         combined_noise = ((1 - randomness) * latent_image + randomness *
@@ -69,3 +67,27 @@ class MixNoiseNode:
         latent = latent.copy()
         latent['samples'] = combined_noise
         return (latent, )
+
+
+class CombineNoiseLatentNode:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "latent": ("LATENT", ),
+            "noise": ("LATENT",),
+            "sigmas": ("SIGMAS", ),
+        }}
+
+    RETURN_TYPES = ("LATENT",)
+    RETURN_NAMES = ("noise",)
+    CATEGORY = "noise"
+
+    FUNCTION = "combine"
+
+    def combine(self, latent, noise, sigmas):
+        latent_image = latent['samples']
+        noise_image = noise['samples']
+        noise_dt = noise_image - (latent_image / sigmas[0])
+        noise = noise.copy()
+        noise['samples'] = noise_dt
+        return (noise, )
