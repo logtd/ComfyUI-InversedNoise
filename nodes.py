@@ -40,7 +40,7 @@ class SamplerInversedEulerNode:
                 if callback is not None:
                     callback(
                         {'x': x, 'i': i, 'sigma': sigmas[i], 'sigma_hat': sigmas[i], 'denoised': denoised})
-            return x
+            return x / sigmas[-1]
 
         ksampler = KSAMPLER(sample_inversed_euler)
         return (ksampler, )
