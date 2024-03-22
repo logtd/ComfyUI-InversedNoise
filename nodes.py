@@ -1,6 +1,8 @@
 import torch
 from tqdm import trange
 
+from comfy.samplers import KSAMPLER
+
 
 class SamplerInversedEulerNode:
     @classmethod
@@ -39,4 +41,6 @@ class SamplerInversedEulerNode:
                     callback(
                         {'x': x, 'i': i, 'sigma': sigmas[i], 'sigma_hat': sigmas[i], 'denoised': denoised})
             return x
-        return (sample_inversed_euler, )
+
+        ksampler = KSAMPLER(sample_inversed_euler)
+        return (ksampler, )
