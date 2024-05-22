@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-inversednoise"
-description = ""
+description = "Nodes:Inversed Euler Sampler, Mix Noise with Latent, Combine Latent Noise"
 version = "1.0.0"
 license = "LICENSE"
 
