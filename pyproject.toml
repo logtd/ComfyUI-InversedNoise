@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-inversednoise"
+description = "Nodes:Inversed Euler Sampler, Mix Noise with Latent, Combine Latent Noise"
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/logtd/ComfyUI-InversedNoise"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-InversedNoise"
+Icon = ""
